@@ -1,0 +1,25 @@
+{
+  "name": "score-auth-reverse-proxy",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "../node_modules/.bin/nodemon index.js",
+    "test": "../node_modules/.bin/jest"
+  },
+  "dependencies": {
+    "@cr-ste-justine/configs": "^0.1.0",
+    "cookie": "^0.3.1",
+    "data.either": "^1.5.2",
+    "http-proxy": "^1.18.0",
+    "@cr-ste-justine/jwt": "^0.1.0",
+    "ramda": "^0.26.1",
+    "express": "^4.17.1",
+    "winston": "^3.2.1",
+    "@cr-ste-justine/functional-utils": "^0.1.0"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.1"
+  }
+}
