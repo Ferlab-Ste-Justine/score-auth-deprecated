@@ -3,8 +3,10 @@ const R = require('ramda')
 const express = require('express')
 const http_proxy = require('http-proxy')
 const Either = require('data.either')
+const jwt = require('@cr-ste-justine/jwt')
 
 //Internal dependencies
+const access_control_utils = require('./utils/access_control')
 const jwtMiddleware = require('./middleware/jwt')
 const accessControlMiddleware = require('./middleware/access_control')
 const configs = require('./config')
@@ -80,6 +82,25 @@ server.post('/upload/7b7b2766-95cd-576a-929d-f34c59f70508', writeObjectResourceM
 server.get('/download/:objectId', readObjectResourceMiddleware)
 
 server.use(accessMiscResourceMiddleware)
+
+const err_message = R.assocPath(['body', 'message'])
+const err_code = R.assocPath(['body', 'code'])
+const err_has_code = R.compose(R.not, R.isNil, err_code)
+server.use(function (err, req, res, next) {
+    if (err_has_code(err)) {
+        const code = err_code(err)
+        if(code == 'Unauthorized') {
+            res.status(401).send(err_message(err))
+        } else if(code == 'Forbidden') {
+            res.status(403).send(err_message(err))
+        } else {
+            return next(err)
+        }
+    } else {
+        return next(err)
+    }
+    
+})
 
 //Server launch
 
