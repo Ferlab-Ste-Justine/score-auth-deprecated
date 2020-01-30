@@ -83,8 +83,8 @@ server.get('/download/:objectId', readObjectResourceMiddleware)
 
 server.use(accessMiscResourceMiddleware)
 
-const err_message = R.assocPath(['body', 'message'])
-const err_code = R.assocPath(['body', 'code'])
+const err_message = R.path(['body', 'message'])
+const err_code = R.path(['body', 'code'])
 const err_has_code = R.compose(R.not, R.isNil, err_code)
 server.use(function (err, req, res, next) {
     if (err_has_code(err)) {
