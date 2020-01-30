@@ -70,18 +70,49 @@ const getJwtTokenMiddleware = jwtMiddleware.get_jwt_token_middleware(
 const server = express()
 
 //All Routes
-server.get('/download/ping', accessBaseResourceMiddleware)
+server.get(
+    '/download/ping',
+    getJwtTokenMiddleware,
+    accessBaseResourceMiddleware
+)
 
-server.get('/upload/:objectId', readObjectResourceMiddleware)
-server.get('/upload/:objectId/status', readObjectResourceMiddleware)
+server.get(
+    '/upload/:objectId',
+    getJwtTokenMiddleware,
+    readObjectResourceMiddleware
+)
+server.get(
+    '/upload/:objectId/status',
+    getJwtTokenMiddleware,
+    readObjectResourceMiddleware
+)
 
-server.post('/upload/7b7b2766-95cd-576a-929d-f34c59f70508/uploads', writeObjectResourceMiddleware)
-server.post('/upload/7b7b2766-95cd-576a-929d-f34c59f70508/parts', writeObjectResourceMiddleware)
-server.post('/upload/7b7b2766-95cd-576a-929d-f34c59f70508', writeObjectResourceMiddleware)
+server.post(
+    '/upload/:objectId/uploads', 
+    getJwtTokenMiddleware,
+    writeObjectResourceMiddleware
+)
+server.post(
+    '/upload/:objectId/parts', 
+    getJwtTokenMiddleware,
+    writeObjectResourceMiddleware
+)
+server.post(
+    '/upload/:objectId', 
+    getJwtTokenMiddleware,
+    writeObjectResourceMiddleware
+)
 
-server.get('/download/:objectId', readObjectResourceMiddleware)
+server.get(
+    '/download/:objectId',
+    getJwtTokenMiddleware, 
+    readObjectResourceMiddleware
+)
 
-server.use(accessMiscResourceMiddleware)
+server.use(
+    getJwtTokenMiddleware,
+    accessMiscResourceMiddleware
+)
 
 const err_message = R.path(['body', 'message'])
 const err_code = R.path(['body', 'code'])
