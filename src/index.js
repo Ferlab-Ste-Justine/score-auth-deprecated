@@ -7,6 +7,7 @@ const jwt = require('@cr-ste-justine/jwt')
 
 //Internal dependencies
 const access_control_utils = require('./utils/access_control')
+const HealthCheckMiddleware = require('./middleware/health_check')
 const jwtMiddleware = require('./middleware/jwt')
 const accessControlMiddleware = require('./middleware/access_control')
 const configs = require('./config')
@@ -65,11 +66,18 @@ const getJwtTokenMiddleware = jwtMiddleware.get_jwt_token_middleware(
     logger.authenticationLogger
 )
 
+const healthCheckMiddlewareInst = HealthCheckMiddleware.health_check(configs.scoreService, logger.livelinessLogger)
+
 //Routing
 
 const server = express()
 
 //All Routes
+server.get(
+    '/proxy/health',
+    healthCheckMiddlewareInst
+)
+
 server.get(
     '/download/ping',
     getJwtTokenMiddleware,

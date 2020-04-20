@@ -39,4 +39,5 @@ module.exports = {
     authenticationLogger: load_optional_str_env_var('AUTHENTICATION_LOGGER', () => 'default'),
     accessControlLogger: load_optional_str_env_var('ACCESS_CONTROL_LOGGER', () => 'default'),
     reverseProxyLogger: load_optional_str_env_var('REVERSE_PROXY_LOGGER', () => 'default'),
+    livelinessLogger: load_optional_str_env_var('LIVELINESS_LOGGER', () => 'default'),
 }

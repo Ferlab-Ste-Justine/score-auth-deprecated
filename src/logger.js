@@ -29,5 +29,6 @@ const loggers = {
 module.exports = {
     authenticationLogger: loggers[configs.authenticationLogger],
     accessControlLogger: loggers[configs.accessControlLogger],
-    reverseProxyLogger: loggers[configs.reverseProxyLogger]
+    reverseProxyLogger: loggers[configs.reverseProxyLogger],
+    livelinessLogger: loggers[configs.livelinessLogger],
 }
