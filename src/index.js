@@ -68,9 +68,14 @@ const getJwtTokenMiddleware = jwtMiddleware.get_jwt_token_middleware(
 
 const healthCheckMiddlewareInst = HealthCheckMiddleware.health_check(configs.scoreService, logger.livelinessLogger)
 
+const flagExternalAccessMiddleware = accessControlMiddleware.flag_external_access(logger.accessControlLogger)
+const accessInternalEndpointMiddleware = accessControlMiddleware.access_internal_endpoint(logger.accessControlLogger)
+
 //Routing
 
 const server = express()
+
+server.use(flagExternalAccessMiddleware)
 
 //All Routes
 server.get(
@@ -106,13 +111,14 @@ server.post(
     writeObjectResourceMiddleware
 )
 server.post(
-    '/upload/:objectId', 
+    '/upload/:objectId',
     getJwtTokenMiddleware,
     writeObjectResourceMiddleware
 )
 
 server.get(
     '/download/:objectId',
+    accessInternalEndpointMiddleware,
     getJwtTokenMiddleware, 
     readObjectResourceMiddleware
 )

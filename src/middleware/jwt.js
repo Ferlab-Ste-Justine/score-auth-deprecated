@@ -6,6 +6,9 @@ const errors = require('restify-errors')
 */
 const get_jwt_token_middleware = (processTokenFn, logger) => {
     return (req, res, next) => {
+        if(!req.externalRequest) {
+            return next()
+        }
         const decryptedTokenEither = processTokenFn(req)
         if(!decryptedTokenEither.isRight) {
             let err = new errors.UnauthorizedError("Invalid Credentials")
