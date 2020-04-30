@@ -36,6 +36,7 @@ module.exports = {
     scoreService: load_mandatory_str_env_var('SCORE_SERVICE'),
     servicePort: load_mandatory_str_env_var('SERVICE_PORT'),
     adminRole: load_mandatory_str_env_var('ADMIN_ROLE'),
+    objectStoreExternalUrl: load_optional_str_env_var('OBJECT_STORE_EXTERNAL_URL', () => null),
     authenticationLogger: load_optional_str_env_var('AUTHENTICATION_LOGGER', () => 'default'),
     accessControlLogger: load_optional_str_env_var('ACCESS_CONTROL_LOGGER', () => 'default'),
     reverseProxyLogger: load_optional_str_env_var('REVERSE_PROXY_LOGGER', () => 'default'),

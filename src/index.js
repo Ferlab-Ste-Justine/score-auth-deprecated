@@ -7,9 +7,11 @@ const jwt = require('@cr-ste-justine/jwt')
 
 //Internal dependencies
 const access_control_utils = require('./utils/access_control')
+const body_processing_utils = require('./utils/body_processing')
 const HealthCheckMiddleware = require('./middleware/health_check')
 const jwtMiddleware = require('./middleware/jwt')
 const accessControlMiddleware = require('./middleware/access_control')
+const proxyResRewriteMiddleware = require('./middleware/proxy_response_rewrite')
 const configs = require('./config')
 const proxy = require('./proxy')
 const logger = require('./logger')
@@ -81,6 +83,10 @@ server.get(
 server.get(
     '/download/ping',
     getJwtTokenMiddleware,
+    proxyResRewriteMiddleware.set_proxy_response_rewrite(
+        body_processing_utils.replace_body_url_base(configs.objectStoreExternalUrl),
+        true
+    ),
     accessBaseResourceMiddleware
 )
 

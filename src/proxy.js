@@ -42,6 +42,21 @@ proxy.on('proxyRes', function(proxyRes, req, res) {
 })
 
 const proxy_request = (target) => ((req, res) => {
+    res.originalWrite = res.write;
+    res.write = function(data) {
+        if(req.response_rewrite_fn) {
+            const newBody = Buffer.from(
+                req.response_rewrite_fn(
+                    data.toString('UTF8')
+                )
+            )
+            
+            res.set('Content-Length', Buffer.byteLength(newBody))
+            res.originalWrite(newBody)
+        } else {
+            res.originalWrite(data);
+        }
+    }
     proxy.web(req, res, { target })
 })
 
