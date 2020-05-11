@@ -118,7 +118,6 @@ server.post(
 
 server.get(
     '/download/:objectId',
-    accessInternalEndpointMiddleware,
     getJwtTokenMiddleware, 
     readObjectResourceMiddleware
 )
