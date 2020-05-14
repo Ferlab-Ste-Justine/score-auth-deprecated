@@ -13,3 +13,5 @@ ENTRYPOINT [""]
 CMD ["npm", "start"]
 
 HEALTHCHECK --interval=10s --timeout=10s --start-period=30s --retries=3 CMD curl -f http://localhost:$SERVICE_PORT/proxy/health
+
+ENV MEMORY_LIMIT 256
